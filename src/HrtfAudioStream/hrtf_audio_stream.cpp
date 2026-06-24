@@ -52,6 +52,15 @@ Ref<AudioStream> HrtfAudioStream::get_source_stream() {
     return sourceStream;
 }
 
+// Maybe make this arg p_sourceStream to coincide with the godot pattern?
 void HrtfAudioStream::set_source_stream(Ref<AudioStream> sourceStream) {
-    HrtfAudioStream::sourceStream = sourceStream;
+    this->sourceStream = sourceStream;
+}
+
+void HrtfAudioStream::set_direction(AzimuthElevation &direction) {
+    this->direction = direction;
+}
+
+AzimuthElevation HrtfAudioStream::get_direction() {
+    return direction;
 }
