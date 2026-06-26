@@ -19,6 +19,9 @@ namespace godot {
     public:
         Ref<AudioStream> get_source_stream();
         void set_source_stream(Ref<AudioStream> sourceStream);
+        String hrir_path;
+        void set_hrir_path(const String &p_path);
+        String get_hrir_path() const;
 
     private:
         AzimuthElevation direction;

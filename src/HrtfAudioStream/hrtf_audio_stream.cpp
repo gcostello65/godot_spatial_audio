@@ -10,9 +10,31 @@ void HrtfAudioStream::_bind_methods() {
     ClassDB::bind_method(
             D_METHOD("set_source_stream", "stream"),
             &HrtfAudioStream::set_source_stream);
+
     ClassDB::bind_method(
             D_METHOD("get_source_stream"),
             &HrtfAudioStream::get_source_stream);
+
+//    ClassDB::bind_method(
+//            D_METHOD("set_hrir_path", "path"),
+//            &HrtfAudioStream::set_hrir_path
+//    );
+//
+//    ClassDB::bind_method(
+//            D_METHOD("get_hrir_path"),
+//            &HrtfAudioStream::get_hrir_path
+//    );
+//
+//    ADD_PROPERTY(
+//            PropertyInfo(
+//                    Variant::STRING,
+//                    "hrir_path",
+//                    PROPERTY_HINT_FILE,
+//                    "*.bin"
+//            ),
+//            "set_hrir_path",
+//            "get_hrir_path"
+//    );
     ADD_PROPERTY(
             PropertyInfo(
                     Variant::OBJECT,
@@ -31,12 +53,22 @@ HrtfAudioStream::~HrtfAudioStream() {
     // Add your cleanup here.
 }
 
+void HrtfAudioStream::set_hrir_path(const String &p_path) {
+    hrir_path = p_path;
+}
+
+String HrtfAudioStream::get_hrir_path() const {
+    return hrir_path;
+}
+
 Ref<AudioStreamPlayback> HrtfAudioStream::_instantiate_playback() const {
     // Set the source playback to provide samples when fetched from the HrtfAudioStreamPlayback
     Ref<HrtfAudioStreamPlayback> hrtfPlayback;
     hrtfPlayback.instantiate();
 
     hrtfPlayback->set_inner_playback(sourceStream->instantiate_playback());
+    hrtfPlayback->load_hrir_file("/Users/gregcostello/Documents/dev/c++/godot_spatial_audio/src/HrtfUtils/subject_003_hrir_f32.bin");
+
     return hrtfPlayback;
 }
 
