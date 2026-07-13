@@ -65,6 +65,7 @@ Ref<AudioStreamPlayback> HrtfAudioStream::_instantiate_playback() const {
     // Set the source playback to provide samples when fetched from the HrtfAudioStreamPlayback
     Ref<HrtfAudioStreamPlayback> hrtfPlayback;
     hrtfPlayback.instantiate();
+    active_playback = hrtfPlayback;
 
     hrtfPlayback->set_inner_playback(sourceStream->instantiate_playback());
     hrtfPlayback->load_hrir_file("/Users/gregcostello/Documents/dev/c++/godot_spatial_audio/src/HrtfUtils/subject_003_hrir_f32.bin");
@@ -91,6 +92,7 @@ void HrtfAudioStream::set_source_stream(Ref<AudioStream> sourceStream) {
 
 void HrtfAudioStream::set_direction(AzimuthElevation &direction) {
     this->direction = direction;
+    active_playback->set_direction(direction);
 }
 
 AzimuthElevation HrtfAudioStream::get_direction() {

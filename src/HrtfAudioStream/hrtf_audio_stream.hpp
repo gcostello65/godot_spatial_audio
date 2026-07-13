@@ -6,12 +6,6 @@
 #include "HrtfAudioStreamPlayback/hrtf_audio_stream_playback.h"
 
 namespace godot {
-    struct AzimuthElevation {
-        // radian measurements for the hrtf lookup
-        float azimuth;
-        float elevation;
-        float distance;
-    };
 
     class HrtfAudioStream : public AudioStream {
         GDCLASS(HrtfAudioStream, AudioStream)
@@ -25,6 +19,7 @@ namespace godot {
 
     private:
         AzimuthElevation direction;
+        mutable Ref<HrtfAudioStreamPlayback> active_playback;
     protected:
         static void _bind_methods();
 

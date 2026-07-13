@@ -8,6 +8,7 @@
 #include "godot_cpp/classes/audio_stream_playback.hpp"
 #include "godot_cpp/variant/packed_vector2_array.hpp"
 #include "HrtfUtils/LoadCipic.h"
+#include "HrtfUtils/azimuth_elevation.h"
 
 namespace godot {
     class HrtfAudioStreamPlayback : public AudioStreamPlayback {
@@ -28,10 +29,14 @@ namespace godot {
         static constexpr double TWO_PI = 6.28318530717958647692;
 
         float delay_line[HRTF_TAPS] = {};
+
+        AzimuthElevation direction;
     protected:
         static void _bind_methods();
 
     public:
+        void set_direction(AzimuthElevation& incoming_direction);
+
         void set_inner_playback(Ref<AudioStreamPlayback> playback);
 
         void _start(double p_from_pos) override;

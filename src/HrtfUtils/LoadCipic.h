@@ -22,6 +22,10 @@ private:
     std::vector<float> hrir_data;
     bool loaded;
 public:
+    static void interpolate_hrir(const float *bottomLeft, const float *bottomRight, const float *topLeft,
+                                   const float *topRight, float azimuth, float elevation, int size,
+                                   std::vector<float> &finalFilter);
+
     // Go through this code and see how it is done, just copied from chat for now
     static int hrir_index(int ear, int az_idx, int el_idx, int tap) {
         return (((ear * AZ_COUNT + az_idx) * EL_COUNT + el_idx) * TAP_COUNT + tap);

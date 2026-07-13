@@ -198,3 +198,11 @@ godot::Error LoadCipic::load_hrir_file(std::string path) {
 
     return godot::OK;
 }
+
+void LoadCipic::interpolate_hrir(const float *bottomLeft, const float *bottomRight, const float *topLeft,
+                                   const float *topRight, float azimuth, float elevation, int size,
+                                   std::vector<float> &finalFilter) {
+    for (int i = 0; i < size; i++) {
+        finalFilter[i] = bottomLeft[i];
+    }
+}
