@@ -10,32 +10,32 @@
 #include "HrtfUtils/LoadCipic.h"
 #include "HrtfUtils/azimuth_elevation.h"
 
+#include <array>
+#include <string>
+#include <vector>
+
 namespace godot {
     class HrtfAudioStreamPlayback : public AudioStreamPlayback {
     GDCLASS(HrtfAudioStreamPlayback, AudioStreamPlayback);
 
     private:
         Ref<AudioStreamPlayback> innerPlayback;
-        LoadCipic loadCipic;
-        static constexpr int HRTF_LEFT = 0;
+        LoadCipic hrir_dataset;
+        std::array<float, LoadCipic::TAP_COUNT> delay_line = {};
+        std::vector<float> left_hrir;
+        std::vector<float> right_hrir;
+        AzimuthElevation direction = {};
 
-        static constexpr int HRTF_RIGHT = 1;
+        float render_hrtf_sample(float mono, int ear);
+        void render_fallback_sample(AudioFrame &target_frame, float mono) const;
 
-        static constexpr int HRTF_TAPS = 200;
-        double circle_phase = 0.0;
-
-        double circle_speed_hz = 0.25; // one full circle every 4 seconds
-
-        static constexpr double TWO_PI = 6.28318530717958647692;
-
-        float delay_line[HRTF_TAPS] = {};
-
-        AzimuthElevation direction;
     protected:
         static void _bind_methods();
 
     public:
-        void set_direction(AzimuthElevation& incoming_direction);
+        HrtfAudioStreamPlayback();
+
+        void set_direction(const AzimuthElevation &incoming_direction);
 
         void set_inner_playback(Ref<AudioStreamPlayback> playback);
 
@@ -53,11 +53,11 @@ namespace godot {
 
         double _get_playback_position() const override;
 
-        void load_hrir_file(std::string path);
+        void load_hrir_file(const std::string &path);
 
         void push_delay_sample(float sample);
 
-        float convolve_200(const float *hrir) const;
+        float convolve_hrir(const float *hrir) const;
     };
 
 }

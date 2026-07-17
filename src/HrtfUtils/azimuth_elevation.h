@@ -5,7 +5,7 @@
 #ifndef GODOT_SPATIAL_AUDIO_AZIMUTH_ELEVATION_H
 #define GODOT_SPATIAL_AUDIO_AZIMUTH_ELEVATION_H
 struct AzimuthElevation {
-    // radian measurements for the hrtf lookup
+    // Degree measurements for the current HRIR lookup path.
     float azimuth;
     float elevation;
     float distance;
